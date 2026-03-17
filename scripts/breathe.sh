@@ -17,27 +17,25 @@ bar() {
   for ((i=1; i<=secs*2; i++)); do
     local f=$((i * w / (secs * 2))) b=""
     for ((j=0; j<f; j++)); do b+="$ch"; done
-    cl; printf "  ${C}%s${R}  %s" "$label" "$b"
+    cl; printf "  ${C}%-10s${R} %s" "$label" "$b"
     sleep 0.5
   done
   cl
 }
 
-printf "\n\n"
+printf "\n"
 
 case "$MODE" in
   sigh)
     printf "  ${B}Physiological Sigh${R}  ${D}30 seconds${R}\n\n"
     for round in 1 2 3; do
       printf "  ${D}Round %d${R}\n" "$round"
-      bar "In · · ·" 3 "●"
-      bar "In ·" 1 "●"
+      bar "Inhale" 4 "●"
       printf "\n"
-      bar "Out · · · · ·" 5 "○"
+      bar "Exhale" 6 "○"
       printf "\n\n"
-      sleep 0.5
     done
-    printf "  ${G}Shoulders down. Jaw soft. Back to it.${R}\n"
+    printf "  ${G}Done.${R}\n"
     ;;
 
   box)
@@ -45,35 +43,35 @@ case "$MODE" in
     for round in 1 2 3 4; do
       printf "  ${D}Round %d/4${R}\n" "$round"
       bar "Inhale" 4 "●"; printf "\n"
-      bar "Hold  " 4 "·"; printf "\n"
+      bar "Hold" 4 "·"; printf "\n"
       bar "Exhale" 4 "○"; printf "\n"
-      bar "Hold  " 4 "·"; printf "\n\n"
+      bar "Hold" 4 "·"; printf "\n\n"
     done
-    printf "  ${G}Three natural breaths. Done.${R}\n"
+    printf "  ${G}Done.${R}\n"
     ;;
 
   body)
     printf "  ${B}Body Check${R}  ${D}1 minute${R}\n\n"
-    spots=("Jaw — unclench it" "Shoulders — drop them" "Hands — unfist them" "Stomach — let it be soft" "Feet — feel the floor")
-    for spot in "${spots[@]}"; do
-      printf "  ${C}%s${R}\n" "$spot"
-      for ((i=10; i>0; i--)); do
-        cl; printf "  ${D}%d${R}" "$i"; sleep 1
+    spots=("Jaw" "Shoulders" "Hands" "Stomach" "Feet")
+    cues=("unclench" "drop" "unfist" "soften" "ground")
+    for i in "${!spots[@]}"; do
+      printf "  ${C}%-12s${R} ${D}%s${R}\n" "${spots[$i]}" "${cues[$i]}"
+      for ((j=10; j>0; j--)); do
+        cl; printf "  ${D}%d${R}" "$j"; sleep 1
       done
       cl; printf "\n"
     done
-    printf "\n  ${G}That's it. Carry on.${R}\n"
+    printf "\n  ${G}Done.${R}\n"
     ;;
 
   grass)
     printf "  ${B}Touch Grass${R}  ${D}5 minutes${R}\n\n"
-    printf "  Stand up. Walk away from the screen.\n\n"
-    printf "  ${D}Go outside if you can. No phone.${R}\n"
-    printf "  ${D}Just notice what's around you.${R}\n\n"
+    printf "  Stand up. Walk away from the screen.\n"
+    printf "  ${D}No phone. Just notice what's around you.${R}\n\n"
     for ((i=300; i>0; i--)); do
       cl; printf "  ${B}%d:%02d${R}" "$((i/60))" "$((i%60))"; sleep 1
     done
-    cl; printf "\n  ${G}Welcome back.${R}\n"
+    cl; printf "\n  ${G}Done.${R}\n"
     ;;
 
   *)

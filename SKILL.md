@@ -24,6 +24,8 @@ Run the breathing timer script. Pick the right mode based on context. Don't ask,
 
 **Default to `sigh` unless the user asks for something specific.**
 
+After any technique, say something brief ("Shoulders down. Jaw soft. Back to it.") and continue with their work. Do NOT ask "how do you feel?" or "want to go deeper?" Just let them get back to it.
+
 For FOMO ("everyone is shipping and I'm behind", "I can't keep up with AI"):
 Don't run a script. Pick ONE stat, then redirect:
 - "82% of tech workers feel close to burnout. You're not behind, you're in an impossible environment."

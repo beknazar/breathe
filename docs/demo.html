@@ -6,205 +6,93 @@
 <title>Breathe — Claude Code Skill Demo</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
-    background: #0d1117;
+    background: #1a1a2e;
     font-family: 'JetBrains Mono', monospace;
-    color: #e6edf3;
+    color: #e0e0e0;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     padding: 40px;
   }
-
   .terminal {
-    background: #161b22;
+    background: #0f0f1a;
     border-radius: 12px;
-    width: 720px;
+    width: 740px;
     max-width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     overflow: hidden;
-    border: 1px solid #30363d;
+    border: 1px solid #2a2a3e;
   }
-
   .terminal-header {
-    background: #21262d;
+    background: #16162a;
     padding: 12px 16px;
     display: flex;
     align-items: center;
     gap: 8px;
-    border-bottom: 1px solid #30363d;
+    border-bottom: 1px solid #2a2a3e;
   }
-
   .dot { width: 12px; height: 12px; border-radius: 50%; }
   .dot-red { background: #ff5f57; }
   .dot-yellow { background: #febc2e; }
   .dot-green { background: #28c840; }
-
   .terminal-title {
-    flex: 1;
-    text-align: center;
-    color: #8b949e;
-    font-size: 13px;
-    margin-right: 56px;
+    flex: 1; text-align: center; color: #6a6a8a; font-size: 13px; margin-right: 56px;
   }
-
   .terminal-body {
-    padding: 24px;
-    font-size: 14px;
-    line-height: 1.7;
-    min-height: 460px;
+    padding: 20px 24px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    min-height: 420px;
   }
-
-  .prompt {
-    color: #7ee787;
-    font-weight: 700;
+  .prompt-line { color: #e0e0e0; margin-bottom: 12px; }
+  .prompt-arrow { color: #7c6fef; font-weight: 700; }
+  .claude-action {
+    display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; color: #c0c0d0;
   }
-
-  .user-input {
-    color: #e6edf3;
+  .action-dot { color: #7c6fef; font-size: 10px; margin-top: 4px; flex-shrink: 0; }
+  .skill-badge { color: #7c6fef; }
+  .tool-name { color: #e8a84c; }
+  .sub-result {
+    margin-left: 20px; border-left: 1px solid #2a2a3e;
+    padding-left: 12px; margin-top: 4px; margin-bottom: 8px;
   }
-
-  .claude-label {
-    color: #d2a8ff;
-    font-weight: 700;
-    margin-top: 16px;
-    display: block;
+  .breathing-output { margin: 4px 0; line-height: 1.8; }
+  .breathing-output .title { font-weight: 700; color: #e0e0e0; }
+  .breathing-output .dim { color: #6a6a8a; }
+  .breathing-output .round { color: #6a6a8a; }
+  .breathing-output .bar { color: #5cc9c9; letter-spacing: 1px; }
+  .breathing-output .done { color: #5dba5d; }
+  .claude-msg {
+    display: flex; align-items: flex-start; gap: 8px; margin-top: 8px; margin-bottom: 4px;
   }
-
-  .response {
-    color: #c9d1d9;
-    margin-top: 4px;
+  .msg-text { color: #c0c0d0; }
+  .cta-title { font-size: 26px; font-weight: 700; color: #e0e0e0; text-align: center; margin-top: 30px; }
+  .cta-sub { color: #6a6a8a; font-size: 14px; text-align: center; margin-top: 6px; }
+  .cta-techniques { color: #6a6a8a; font-size: 12.5px; text-align: center; margin-top: 20px; line-height: 1.8; }
+  .install-box {
+    background: #16162a; border: 1px solid #2a2a3e; border-radius: 6px;
+    padding: 10px 14px; margin: 20px auto; max-width: 520px;
+    color: #5dba5d; font-size: 13px; text-align: center;
   }
-
-  .highlight {
-    color: #ffa657;
-    font-weight: 700;
-  }
-
-  .step {
-    color: #79c0ff;
-  }
-
-  .stat {
-    color: #ffa657;
-  }
-
-  .dim {
-    color: #8b949e;
-  }
-
-  .cyan {
-    color: #56d4dd;
-  }
-
-  .green {
-    color: #7ee787;
-  }
-
-  .bar-filled {
-    color: #56d4dd;
-    letter-spacing: -1px;
-  }
-
-  .bar-empty {
-    color: #56d4dd;
-    letter-spacing: -1px;
-  }
-
-  .fade-in {
-    opacity: 0;
-    animation: fadeIn 0.5s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-
-  .line { margin-bottom: 2px; }
-
-  .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 16px;
-    background: #e6edf3;
-    animation: blink 1s step-end infinite;
-    vertical-align: middle;
-    margin-left: 2px;
-  }
-
-  @keyframes blink {
-    50% { opacity: 0; }
-  }
-
-  #scene1, #scene2, #scene3 { display: none; }
-
-  .badge {
-    display: inline-block;
-    background: #1f6feb33;
-    color: #58a6ff;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    margin-left: 8px;
-  }
-
-  .install-line {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    padding: 8px 12px;
-    margin-top: 12px;
-    color: #7ee787;
-    font-size: 13px;
-  }
-
+  .cta-footer { color: #6a6a8a; font-size: 12.5px; text-align: center; margin-top: 16px; }
+  .cta-author { text-align: center; margin-top: 10px; }
+  .cta-author a { color: #7c6fef; text-decoration: none; }
   .footer {
-    border-top: 1px solid #30363d;
-    padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    color: #8b949e;
-    font-size: 12px;
+    border-top: 1px solid #2a2a3e; padding: 10px 24px;
+    display: flex; justify-content: space-between; color: #4a4a6a; font-size: 11px;
   }
-
-  .footer a {
-    color: #58a6ff;
-    text-decoration: none;
+  .fade-in { animation: fadeIn 0.4s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  #scene1, #scene2, #scene3 { display: none; }
+  .cursor {
+    display: inline-block; width: 7px; height: 15px;
+    background: #7c6fef; animation: blink 1s step-end infinite;
+    vertical-align: middle; margin-left: 2px;
   }
-
-  .timer-block {
-    margin-top: 12px;
-    line-height: 2;
-  }
-
-  .timer-block .round-label {
-    color: #8b949e;
-    margin-top: 4px;
-  }
-
-  .timer-block .bar-line {
-    white-space: nowrap;
-  }
-
-  .grow-bar {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: bottom;
-    white-space: nowrap;
-  }
-
-  .grow-bar.animate {
-    animation: growWidth 1.5s ease-out forwards;
-  }
-
-  @keyframes growWidth {
-    from { width: 0; }
-    to { width: 100%; }
-  }
+  @keyframes blink { 50% { opacity: 0; } }
 </style>
 </head>
 <body>
@@ -214,73 +102,85 @@
     <div class="dot dot-red"></div>
     <div class="dot dot-yellow"></div>
     <div class="dot dot-green"></div>
-    <div class="terminal-title">claude — ~/Projects</div>
+    <div class="terminal-title">claude &mdash; ~/Projects/myapp</div>
   </div>
 
-  <div class="terminal-body" id="content">
-    <!-- Scene 0: User types -->
+  <div class="terminal-body">
     <div id="scene0">
-      <div class="line"><span class="prompt">$</span> <span class="user-input" id="typing"></span><span class="cursor" id="cursor0"></span></div>
+      <div class="prompt-line"><span class="prompt-arrow">&#10095;</span> <span id="typing"></span><span class="cursor"></span></div>
     </div>
 
-    <!-- Scene 1: Breathing Timer -->
+    <!-- Scene 1: Proactive detection after failed tests -->
     <div id="scene1">
-      <div class="line"><span class="prompt">$</span> <span class="user-input">I'm stressed</span></div>
+      <div class="prompt-line"><span class="prompt-arrow">&#10095;</span> ugh this test keeps failing</div>
 
-      <span class="claude-label">Claude <span class="badge">breathe</span></span>
+      <div class="claude-action">
+        <span class="action-dot">&#9210;</span>
+        <span class="skill-badge">Skill(breathe)</span>
+      </div>
 
-      <div class="timer-block" id="timer-output">
-        <div class="line" style="margin-top: 12px;">
-          <span style="font-weight: 700;">Physiological Sigh</span>  <span class="dim">30 seconds</span>
+      <div class="claude-msg">
+        <span class="action-dot">&#9210;</span>
+        <span class="msg-text">3 failures in a row. Quick reset? 30 seconds.</span>
+      </div>
+
+      <div class="claude-action" style="margin-top: 8px;">
+        <span class="action-dot">&#9210;</span>
+        <span><span class="tool-name">Bash</span>(breathe.sh sigh)</span>
+      </div>
+
+      <div class="sub-result">
+        <div class="breathing-output">
+          <div><span class="title">Physiological Sigh</span> <span class="dim">30 seconds</span></div>
+          <div style="margin-top: 4px;"><span class="round">Round 1</span></div>
+          <div><span class="bar">Inhale     &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</span></div>
+          <div><span class="bar">Exhale     &#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;</span></div>
+          <div style="margin-top: 2px;"><span class="round">Round 2</span></div>
+          <div><span class="bar">Inhale     &#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</span></div>
+          <div><span class="bar">Exhale     &#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;</span></div>
+          <div style="margin-top: 4px;"><span class="done">Done.</span></div>
         </div>
-        <div id="round1" style="opacity: 0; margin-top: 12px;">
-          <div class="round-label">Round 1</div>
-          <div class="bar-line">  <span class="cyan">In · · ·</span>  <span class="bar-filled" id="bar1"></span></div>
-          <div class="bar-line">  <span class="cyan">In ·</span>      <span class="bar-filled" id="bar2"></span></div>
-          <div class="bar-line">  <span class="cyan">Out · · · · ·</span>  <span class="bar-empty" id="bar3"></span></div>
-        </div>
-        <div id="round2" style="opacity: 0; margin-top: 12px;">
-          <div class="round-label">Round 2</div>
-          <div class="bar-line">  <span class="cyan">In · · ·</span>  <span class="bar-filled" id="bar4"></span></div>
-          <div class="bar-line">  <span class="cyan">In ·</span>      <span class="bar-filled" id="bar5"></span></div>
-          <div class="bar-line">  <span class="cyan">Out · · · · ·</span>  <span class="bar-empty" id="bar6"></span></div>
-        </div>
-        <div id="closing-msg" style="opacity: 0; margin-top: 16px;">
-          <span class="green">Shoulders down. Jaw soft. Back to it.</span>
-        </div>
+      </div>
+
+      <div class="claude-msg">
+        <span class="action-dot">&#9210;</span>
+        <span class="msg-text">Shoulders down. Jaw soft. Back to it.</span>
       </div>
     </div>
 
-    <!-- Scene 2: FOMO Reset -->
+    <!-- Scene 2: FOMO detection -->
     <div id="scene2">
-      <div class="line"><span class="prompt">$</span> <span class="user-input">everyone on X is shipping AI stuff and I feel behind</span></div>
+      <div class="prompt-line"><span class="prompt-arrow">&#10095;</span> everyone on X is shipping AI agents and I feel mass behind</div>
 
-      <span class="claude-label">Claude <span class="badge">breathe</span></span>
+      <div class="claude-action">
+        <span class="action-dot">&#9210;</span>
+        <span class="skill-badge">Skill(breathe)</span>
+      </div>
 
-      <div class="response">
-        <div class="line" style="margin-top: 8px;"><span class="stat">82%</span> of tech workers feel close to burnout. You're not behind — you're in an impossible environment.</div>
-        <div class="line" style="margin-top: 16px;">What's <span class="highlight">one thing</span> you can ship in the next 30 minutes?</div>
+      <div class="claude-msg">
+        <span class="action-dot">&#9210;</span>
+        <span class="msg-text">82% of tech workers feel close to burnout. You're not behind, you're in an impossible environment.</span>
+      </div>
+
+      <div class="claude-msg">
+        <span class="action-dot">&#9210;</span>
+        <span class="msg-text">What's one thing you can ship in the next 30 minutes?</span>
       </div>
     </div>
 
     <!-- Scene 3: Install CTA -->
     <div id="scene3">
-      <div class="line" style="text-align: center; margin-top: 40px;">
-        <span style="font-size: 28px; font-weight: 700; color: #e6edf3;">breathe</span>
-        <span class="dim" style="font-size: 14px; display: block; margin-top: 4px;">a breathing timer for your terminal</span>
+      <div class="cta-title">breathe</div>
+      <div class="cta-sub">a breathing timer for your terminal</div>
+      <div class="cta-techniques">
+        Physiological Sigh &middot; Three Breaths &middot; Body Check<br>
+        FOMO Check &middot; Box Breathing &middot; Touch Grass
       </div>
-      <div class="line" style="text-align: center; margin-top: 20px; color: #8b949e;">
-        6 techniques: Physiological Sigh · Touch Grass · Three Breaths · FOMO Check · Box Breathing · Body Check
-      </div>
-      <div class="install-line" style="text-align: center; margin-top: 24px; max-width: 540px; margin-left: auto; margin-right: auto;">
+      <div class="install-box">
         git clone git@github.com:beknazar/breathe.git ~/.claude/skills/breathe
       </div>
-      <div class="line" style="text-align: center; margin-top: 20px;">
-        <span class="dim">Every technique is evidence-based. No vibes. No woo.</span>
-      </div>
-      <div class="line" style="text-align: center; margin-top: 12px;">
-        <span class="dim">by</span> <span style="color: #58a6ff;">@beknabdik</span>
-      </div>
+      <div class="cta-footer">Detects stress proactively. No vibes. No woo.</div>
+      <div class="cta-author">by <a href="https://x.com/beknabdik">@beknabdik</a></div>
     </div>
   </div>
 
@@ -291,90 +191,35 @@
 </div>
 
 <script>
-  const typingText = "I'm stressed";
-  let charIndex = 0;
-
+  const typingText = "ugh this test keeps failing";
+  let ci = 0;
   document.getElementById('scene0').style.display = 'block';
 
   function typeChar() {
-    if (charIndex < typingText.length) {
-      document.getElementById('typing').textContent += typingText[charIndex];
-      charIndex++;
-      setTimeout(typeChar, 50 + Math.random() * 30);
+    if (ci < typingText.length) {
+      document.getElementById('typing').textContent += typingText[ci++];
+      setTimeout(typeChar, 45 + Math.random() * 25);
     } else {
       setTimeout(() => {
         document.getElementById('scene0').style.display = 'none';
         document.getElementById('scene1').style.display = 'block';
         document.getElementById('scene1').classList.add('fade-in');
-        animateTimer();
-      }, 800);
+      }, 600);
     }
   }
+  setTimeout(typeChar, 800);
 
-  function fillBar(el, chars, delay) {
-    return new Promise(resolve => {
-      let i = 0;
-      function addChar() {
-        if (i < chars.length) {
-          el.textContent += chars[i];
-          i++;
-          setTimeout(addChar, delay);
-        } else {
-          resolve();
-        }
-      }
-      addChar();
-    });
-  }
-
-  async function animateTimer() {
-    // Round 1
-    const r1 = document.getElementById('round1');
-    r1.style.opacity = '1';
-    r1.classList.add('fade-in');
-
-    await fillBar(document.getElementById('bar1'), '●●●●●●●●●●●●●●●●●●●●', 70);
-    await fillBar(document.getElementById('bar2'), '●●●●●●●●●●●●●●●●●●●●', 30);
-    await fillBar(document.getElementById('bar3'), '○○○○○○○○○○○○○○○○○○○○', 100);
-
-    await pause(300);
-
-    // Round 2
-    const r2 = document.getElementById('round2');
-    r2.style.opacity = '1';
-    r2.classList.add('fade-in');
-
-    await fillBar(document.getElementById('bar4'), '●●●●●●●●●●●●●●●●●●●●', 70);
-    await fillBar(document.getElementById('bar5'), '●●●●●●●●●●●●●●●●●●●●', 30);
-    await fillBar(document.getElementById('bar6'), '○○○○○○○○○○○○○○○○○○○○', 100);
-
-    await pause(400);
-
-    // Closing message
-    const msg = document.getElementById('closing-msg');
-    msg.style.opacity = '1';
-    msg.classList.add('fade-in');
-  }
-
-  function pause(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  setTimeout(typeChar, 1000);
-
-  // Scene 1 -> Scene 2 after timer animation completes (~10s)
   setTimeout(() => {
     document.getElementById('scene1').style.display = 'none';
     document.getElementById('scene2').style.display = 'block';
     document.getElementById('scene2').classList.add('fade-in');
-  }, 14000);
+  }, 12000);
 
-  // Scene 2 -> Scene 3
   setTimeout(() => {
     document.getElementById('scene2').style.display = 'none';
     document.getElementById('scene3').style.display = 'block';
     document.getElementById('scene3').classList.add('fade-in');
-  }, 22000);
+  }, 19000);
 </script>
 
 </body>
