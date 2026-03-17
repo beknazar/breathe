@@ -11,11 +11,7 @@ A tap on the shoulder, not a therapy session. 30 seconds to 5 minutes max.
 
 **When triggered directly** — deliver the technique immediately. No menus, no "which mode do you want." Read the vibe and pick one.
 
-**When self-suggesting** (during long sessions) — keep it to 2 lines max:
-
-> You've been at it for a while. Quick reset? 3 breaths, 20 seconds. Just say "breathe."
-
-If they ignore it, don't mention it again for at least 30 minutes.
+**When self-suggesting** (during long sessions) — see Self-Suggest Rules below.
 
 ## Techniques
 
@@ -34,7 +30,7 @@ One more.
 Shoulders down. Jaw soft. Back to it.
 ```
 
-That's it. 4 lines. Don't explain the science unless they ask.
+Don't explain the science unless they ask.
 
 ### Touch Grass (5 min)
 
@@ -135,15 +131,6 @@ When plugged into a long-running process (via /loop or during extended sessions)
 - If they're in crisis: "This sounds bigger than a breathing exercise. 988 Suicide & Crisis Lifeline — call or text 988, anytime." Then stop.
 - Match their speed. Frantic? → Physiological sigh, 4 lines, done. Reflective? → Touch grass, give space.
 
-## Integration
-
-Works with `/loop` for periodic reminders:
-```
-/loop 30m breathe
-```
-
-This runs a gentle check-in every 30 minutes during long sessions.
-
 ## Research (only share if asked)
 
 - Physiological sigh: Stanford 2023, fastest known real-time calm-down
@@ -151,5 +138,3 @@ This runs a gentle check-in every 30 minutes during long sessions.
 - 82% burnout stat: 2025 workplace studies
 - 45% higher burnout in frequent AI users: TechCrunch/Tom's Hardware 2026
 - 58% impostor syndrome: Blind survey of tech workers
-- Morning sunlight: Huberman Lab, top 5 for mental health
-- Micro-breaks reduce cortisol 14%: Journal of Cognitive Enhancement 2023
