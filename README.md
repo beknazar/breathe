@@ -1,34 +1,8 @@
-# Breathe — Mental Health for Builders
+# Breathe
 
-A Claude Code skill that helps founders, engineers, and builders take care of their mental health without leaving the terminal.
+A Claude Code skill that reminds you to take a break.
 
-Because the people building the future deserve to actually enjoy it.
-
-## Why This Exists
-
-- **82% of tech workers** feel close to burnout
-- **45% higher burnout** among frequent AI users
-- **1 in 9 US adults** report elevated AI FOMO
-- **58% of tech workers** feel like impostors
-
-We have skills for shipping code, reviewing PRs, and optimizing databases. Nobody built one for the person behind the keyboard.
-
-## What It Does
-
-### Quick Breathe (30 seconds)
-Physiological sigh, three-breath reset, or 5-4-3-2-1 grounding. For when you need to reset RIGHT NOW.
-
-### Guided Meditation (5-15 minutes)
-Box breathing, body scan, or 4-7-8 sleep prep. Step-by-step, with timing cues.
-
-### FOMO Reset
-When you're spiraling about AI, competitors, or feeling behind. Research-backed perspective shifts.
-
-### Burnout Check-In
-Structured self-assessment with the basics stack: sleep, sunlight, movement, connection, boundaries.
-
-### Perspective Mode
-Journaling prompts, comparison clarity exercises, and impostor syndrome context.
+30 seconds to 5 minutes. Just a tap on the shoulder when you've been staring at code too long.
 
 ## Install
 
@@ -36,34 +10,61 @@ Journaling prompts, comparison clarity exercises, and impostor syndrome context.
 git clone git@github.com:beknazar/breathe.git ~/.claude/skills/breathe
 ```
 
-## Usage
+## What happens
 
-In Claude Code, just say what you need:
+Say "I'm stressed" in Claude Code. You get this:
 
 ```
-"I'm stressed"
-"I need to breathe"
-"AI FOMO is killing me"
-"Quick meditation"
-"Burnout check"
-"I feel like an impostor"
-"I can't keep up with AI"
+Double inhale through nose... long exhale through mouth.
+Again.
+In, in... and out.
+One more.
+
+Shoulders down. Jaw soft. Back to it.
 ```
+
+30 seconds, back to work.
+
+## 6 techniques
+
+| Technique | Time | When |
+|-----------|------|------|
+| Physiological Sigh | 30 sec | Stress, tight deadline |
+| Three Breaths | 20 sec | Between tasks, before a decision |
+| Body Check | 1 min | Tense shoulders, clenched jaw |
+| FOMO Check | 1 min | "Everyone is shipping and I'm behind" |
+| Box Breathing | 2 min | Need a longer reset |
+| Touch Grass | 5 min | Been grinding for hours |
+
+You don't pick. It reads your vibe and picks for you.
+
+## It nudges you too
+
+Plug it into a long session:
+
+```
+/loop 30m breathe
+```
+
+Two nudges per hour, max. Say no and it says "Got it." No guilt trips.
+
+After a failed build:
+
+> That's frustrating. 3 breaths before the next attempt?
+
+## The problem it solves
+
+82% of tech workers feel close to burnout. Frequent AI users report 45% higher burnout than moderate users. 58% feel like impostors.
+
+There are skills for shipping code, reviewing PRs, optimizing queries. There wasn't one for the person writing it.
 
 ## Research
 
-Every technique is evidence-based. No vibes, no woo. See [research notes](../research/ai-fomo-mental-health.md) for sources.
-
-- Physiological sigh: Stanford 2023
-- FOMO-AI scale: ScienceDirect 2025
-- Burnout statistics: 2025 workplace studies
-- Huberman morning sunlight protocol
-- Navy SEAL box breathing
-- UC Berkeley body scan research
+Physiological sigh from Stanford (2023). Box breathing from Navy SEALs. Burnout data from 2025 workplace studies. The skill keeps the citations quiet unless you ask.
 
 ## Author
 
-**Bek** — [@beknabdik](https://x.com/beknabdik)
+Bek, [@beknabdik](https://x.com/beknabdik)
 
 ## License
 
