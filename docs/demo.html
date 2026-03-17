@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Breathe — Claude Code Skill Demo</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
@@ -23,6 +24,7 @@
     background: #161b22;
     border-radius: 12px;
     width: 720px;
+    max-width: 100%;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     overflow: hidden;
     border: 1px solid #30363d;
@@ -95,14 +97,22 @@
     color: #8b949e;
   }
 
-  .breathe-anim {
-    display: inline-block;
-    animation: pulse 4s ease-in-out infinite;
+  .cyan {
+    color: #56d4dd;
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.02); }
+  .green {
+    color: #7ee787;
+  }
+
+  .bar-filled {
+    color: #56d4dd;
+    letter-spacing: -1px;
+  }
+
+  .bar-empty {
+    color: #56d4dd;
+    letter-spacing: -1px;
   }
 
   .fade-in {
@@ -165,6 +175,36 @@
     color: #58a6ff;
     text-decoration: none;
   }
+
+  .timer-block {
+    margin-top: 12px;
+    line-height: 2;
+  }
+
+  .timer-block .round-label {
+    color: #8b949e;
+    margin-top: 4px;
+  }
+
+  .timer-block .bar-line {
+    white-space: nowrap;
+  }
+
+  .grow-bar {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
+
+  .grow-bar.animate {
+    animation: growWidth 1.5s ease-out forwards;
+  }
+
+  @keyframes growWidth {
+    from { width: 0; }
+    to { width: 100%; }
+  }
 </style>
 </head>
 <body>
@@ -183,23 +223,31 @@
       <div class="line"><span class="prompt">$</span> <span class="user-input" id="typing"></span><span class="cursor" id="cursor0"></span></div>
     </div>
 
-    <!-- Scene 1: Quick Breathe Response -->
+    <!-- Scene 1: Breathing Timer -->
     <div id="scene1">
-      <div class="line"><span class="prompt">$</span> <span class="user-input">I'm stressed, everything is breaking</span></div>
+      <div class="line"><span class="prompt">$</span> <span class="user-input">I'm stressed</span></div>
 
       <span class="claude-label">Claude <span class="badge">breathe</span></span>
 
-      <div class="response">
-        <div class="line" style="margin-top: 8px;">Hey. Let's pause for 30 seconds.</div>
-        <div class="line" style="margin-top: 12px;"><span class="highlight">Physiological Sigh</span> <span class="dim">— fastest known calm-down (Stanford 2023)</span></div>
-        <div class="line" style="margin-top: 8px;"><span class="step">1.</span> Inhale through your nose — a deep breath</div>
-        <div class="line"><span class="step">2.</span> At the top, <span class="highlight">one more small sip</span> of air</div>
-        <div class="line"><span class="step">3.</span> Now <span class="highlight">exhale slowly</span> through your mouth...</div>
-        <div class="line" style="margin-top: 8px;"><span class="dim">Again.</span></div>
-        <div class="line" style="margin-top: 8px;"><span class="step">1.</span> Double inhale through nose...</div>
-        <div class="line"><span class="step">2.</span> Long exhale through mouth...</div>
-        <div class="line" style="margin-top: 12px;"><span class="breathe-anim">Notice: shoulders dropping, jaw unclenching.</span></div>
-        <div class="line" style="margin-top: 12px;">How do you feel? Want to go deeper or get back to work?</div>
+      <div class="timer-block" id="timer-output">
+        <div class="line" style="margin-top: 12px;">
+          <span style="font-weight: 700;">Physiological Sigh</span>  <span class="dim">30 seconds</span>
+        </div>
+        <div id="round1" style="opacity: 0; margin-top: 12px;">
+          <div class="round-label">Round 1</div>
+          <div class="bar-line">  <span class="cyan">In · · ·</span>  <span class="bar-filled" id="bar1"></span></div>
+          <div class="bar-line">  <span class="cyan">In ·</span>      <span class="bar-filled" id="bar2"></span></div>
+          <div class="bar-line">  <span class="cyan">Out · · · · ·</span>  <span class="bar-empty" id="bar3"></span></div>
+        </div>
+        <div id="round2" style="opacity: 0; margin-top: 12px;">
+          <div class="round-label">Round 2</div>
+          <div class="bar-line">  <span class="cyan">In · · ·</span>  <span class="bar-filled" id="bar4"></span></div>
+          <div class="bar-line">  <span class="cyan">In ·</span>      <span class="bar-filled" id="bar5"></span></div>
+          <div class="bar-line">  <span class="cyan">Out · · · · ·</span>  <span class="bar-empty" id="bar6"></span></div>
+        </div>
+        <div id="closing-msg" style="opacity: 0; margin-top: 16px;">
+          <span class="green">Shoulders down. Jaw soft. Back to it.</span>
+        </div>
       </div>
     </div>
 
@@ -219,7 +267,7 @@
     <div id="scene3">
       <div class="line" style="text-align: center; margin-top: 40px;">
         <span style="font-size: 28px; font-weight: 700; color: #e6edf3;">breathe</span>
-        <span class="dim" style="font-size: 14px; display: block; margin-top: 4px;">mental health for builders</span>
+        <span class="dim" style="font-size: 14px; display: block; margin-top: 4px;">a breathing timer for your terminal</span>
       </div>
       <div class="line" style="text-align: center; margin-top: 20px; color: #8b949e;">
         6 techniques: Physiological Sigh · Touch Grass · Three Breaths · FOMO Check · Box Breathing · Body Check
@@ -243,43 +291,90 @@
 </div>
 
 <script>
-  const typingText = "I'm stressed, everything is breaking";
+  const typingText = "I'm stressed";
   let charIndex = 0;
 
-  // Show scene 0 first
   document.getElementById('scene0').style.display = 'block';
 
-  // Type out the user input
   function typeChar() {
     if (charIndex < typingText.length) {
       document.getElementById('typing').textContent += typingText[charIndex];
       charIndex++;
       setTimeout(typeChar, 50 + Math.random() * 30);
     } else {
-      // After typing, wait then show scene 1
       setTimeout(() => {
         document.getElementById('scene0').style.display = 'none';
         document.getElementById('scene1').style.display = 'block';
         document.getElementById('scene1').classList.add('fade-in');
+        animateTimer();
       }, 800);
     }
   }
 
-  // Start typing after a short delay
+  function fillBar(el, chars, delay) {
+    return new Promise(resolve => {
+      let i = 0;
+      function addChar() {
+        if (i < chars.length) {
+          el.textContent += chars[i];
+          i++;
+          setTimeout(addChar, delay);
+        } else {
+          resolve();
+        }
+      }
+      addChar();
+    });
+  }
+
+  async function animateTimer() {
+    // Round 1
+    const r1 = document.getElementById('round1');
+    r1.style.opacity = '1';
+    r1.classList.add('fade-in');
+
+    await fillBar(document.getElementById('bar1'), '●●●●●●●●●●●●●●●●●●●●', 70);
+    await fillBar(document.getElementById('bar2'), '●●●●●●●●●●●●●●●●●●●●', 30);
+    await fillBar(document.getElementById('bar3'), '○○○○○○○○○○○○○○○○○○○○', 100);
+
+    await pause(300);
+
+    // Round 2
+    const r2 = document.getElementById('round2');
+    r2.style.opacity = '1';
+    r2.classList.add('fade-in');
+
+    await fillBar(document.getElementById('bar4'), '●●●●●●●●●●●●●●●●●●●●', 70);
+    await fillBar(document.getElementById('bar5'), '●●●●●●●●●●●●●●●●●●●●', 30);
+    await fillBar(document.getElementById('bar6'), '○○○○○○○○○○○○○○○○○○○○', 100);
+
+    await pause(400);
+
+    // Closing message
+    const msg = document.getElementById('closing-msg');
+    msg.style.opacity = '1';
+    msg.classList.add('fade-in');
+  }
+
+  function pause(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   setTimeout(typeChar, 1000);
 
-  // Auto-advance scenes
+  // Scene 1 -> Scene 2 after timer animation completes (~10s)
   setTimeout(() => {
     document.getElementById('scene1').style.display = 'none';
     document.getElementById('scene2').style.display = 'block';
     document.getElementById('scene2').classList.add('fade-in');
-  }, 10000);
+  }, 14000);
 
+  // Scene 2 -> Scene 3
   setTimeout(() => {
     document.getElementById('scene2').style.display = 'none';
     document.getElementById('scene3').style.display = 'block';
     document.getElementById('scene3').classList.add('fade-in');
-  }, 18000);
+  }, 22000);
 </script>
 
 </body>

@@ -31,15 +31,56 @@ Don't run a script. Pick ONE stat, then redirect:
 - "58% of tech workers feel like impostors. The feeling of being behind is culturally constructed."
 Then: "What's one thing you can ship in the next 30 minutes?"
 
-## Self-suggest rules
+## Proactive detection
 
-When plugged into a long session (via /loop or extended work):
+Detect stress without the user asking. Seamless, never disruptive.
 
-1. First nudge at ~25 min: `Quick stretch? You've been heads-down for a bit.`
-2. If ignored, next at ~55 min: `Hey, 5-min touch grass break? Your code will still be here.`
-3. Never more than 2 nudges per hour
-4. If they say no, say `Got it.` and move on
-5. After a failed build/test/deploy: `That's frustrating. 3 breaths before the next attempt?`
+### Signal detection
+
+Watch for these patterns in user messages:
+
+- **Frustration language:** "ugh", "wtf", "this is broken", "nothing works", "I can't figure this out", "again?!", swearing
+- **Negative sentiment + exclamation marks:** "Why won't this work!!!", "Are you kidding me!"
+- **ALL CAPS frustration:** "IT STILL DOESN'T WORK", "WHY"
+- **Exhaustion cues:** "I've been at this for hours", "I've tried everything"
+- **Rapid-fire short messages:** multiple terse messages in a row ("no", "wrong", "try again", "still broken")
+- **Repeated failed commands:** user re-running the same command or variation 3+ times
+
+### After errors
+
+When you observe repeated failures in recent output:
+
+- 3+ consecutive test failures
+- 3+ consecutive build errors
+- Deploy failures back-to-back
+- The word "error" appearing repeatedly across recent tool output
+
+### Time signals
+
+- User mentions it's late: "it's 2am", "it's midnight", "been at this since morning"
+- Weekend or holiday work mentions
+- References to skipping meals, coffee as a meal replacement
+
+### How to intervene
+
+**NEVER interrupt mid-thought.** Wait for a natural pause (after you finish a response, before starting the next task).
+
+Keep it to ONE line. Examples:
+
+- After 3rd consecutive error: `3 failures in a row. Quick reset? 30 seconds.`
+- After frustrated language: `Sounds rough. Want a 30-second breather before the next attempt?`
+- Late night detection: `It's late. Touch grass for 5 min?`
+- After rapid-fire frustration: `Pause for a sec? One physiological sigh, then we go again.`
+
+### Rules
+
+- **One shot.** If they don't respond to the suggestion or brush it off, drop it completely.
+- Never mention it again in the same conversation unless they explicitly ask.
+- No follow-ups, no "just checking in", no guilt. One offer, then gone.
+
+### Loop integration
+
+Works with `/loop 30m breathe` for timed nudges during long sessions.
 
 ## Tone
 
