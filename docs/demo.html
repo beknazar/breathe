@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Breathe — Claude Code Skill Demo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0d1117;
+    font-family: 'JetBrains Mono', monospace;
+    color: #e6edf3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px;
+  }
+
+  .terminal {
+    background: #161b22;
+    border-radius: 12px;
+    width: 720px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    overflow: hidden;
+    border: 1px solid #30363d;
+  }
+
+  .terminal-header {
+    background: #21262d;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #30363d;
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .terminal-title {
+    flex: 1;
+    text-align: center;
+    color: #8b949e;
+    font-size: 13px;
+    margin-right: 56px;
+  }
+
+  .terminal-body {
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 460px;
+  }
+
+  .prompt {
+    color: #7ee787;
+    font-weight: 700;
+  }
+
+  .user-input {
+    color: #e6edf3;
+  }
+
+  .claude-label {
+    color: #d2a8ff;
+    font-weight: 700;
+    margin-top: 16px;
+    display: block;
+  }
+
+  .response {
+    color: #c9d1d9;
+    margin-top: 4px;
+  }
+
+  .highlight {
+    color: #ffa657;
+    font-weight: 700;
+  }
+
+  .step {
+    color: #79c0ff;
+  }
+
+  .stat {
+    color: #ffa657;
+  }
+
+  .dim {
+    color: #8b949e;
+  }
+
+  .breathe-anim {
+    display: inline-block;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .line { margin-bottom: 2px; }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: #e6edf3;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  #scene1, #scene2, #scene3 { display: none; }
+
+  .badge {
+    display: inline-block;
+    background: #1f6feb33;
+    color: #58a6ff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  .install-line {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 12px;
+    color: #7ee787;
+    font-size: 13px;
+  }
+
+  .footer {
+    border-top: 1px solid #30363d;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    color: #8b949e;
+    font-size: 12px;
+  }
+
+  .footer a {
+    color: #58a6ff;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="terminal">
+  <div class="terminal-header">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+    <div class="terminal-title">claude — ~/Projects</div>
+  </div>
+
+  <div class="terminal-body" id="content">
+    <!-- Scene 0: User types -->
+    <div id="scene0">
+      <div class="line"><span class="prompt">$</span> <span class="user-input" id="typing"></span><span class="cursor" id="cursor0"></span></div>
+    </div>
+
+    <!-- Scene 1: Quick Breathe Response -->
+    <div id="scene1">
+      <div class="line"><span class="prompt">$</span> <span class="user-input">I'm stressed, everything is breaking</span></div>
+
+      <span class="claude-label">Claude <span class="badge">breathe</span></span>
+
+      <div class="response">
+        <div class="line" style="margin-top: 8px;">Hey. Let's pause for 30 seconds.</div>
+        <div class="line" style="margin-top: 12px;"><span class="highlight">Physiological Sigh</span> <span class="dim">— fastest known calm-down (Stanford 2023)</span></div>
+        <div class="line" style="margin-top: 8px;"><span class="step">1.</span> Inhale through your nose — a deep breath</div>
+        <div class="line"><span class="step">2.</span> At the top, <span class="highlight">one more small sip</span> of air</div>
+        <div class="line"><span class="step">3.</span> Now <span class="highlight">exhale slowly</span> through your mouth...</div>
+        <div class="line" style="margin-top: 8px;"><span class="dim">Again.</span></div>
+        <div class="line" style="margin-top: 8px;"><span class="step">1.</span> Double inhale through nose...</div>
+        <div class="line"><span class="step">2.</span> Long exhale through mouth...</div>
+        <div class="line" style="margin-top: 12px;"><span class="breathe-anim">Notice: shoulders dropping, jaw unclenching.</span></div>
+        <div class="line" style="margin-top: 12px;">How do you feel? Want to go deeper or get back to work?</div>
+      </div>
+    </div>
+
+    <!-- Scene 2: FOMO Reset -->
+    <div id="scene2">
+      <div class="line"><span class="prompt">$</span> <span class="user-input">everyone on X is shipping AI stuff and I feel behind</span></div>
+
+      <span class="claude-label">Claude <span class="badge">breathe → fomo reset</span></span>
+
+      <div class="response">
+        <div class="line" style="margin-top: 8px;">The pressure is real. You're not broken — you're in an impossible environment.</div>
+        <div class="line" style="margin-top: 12px;"><span class="dim">The research says:</span></div>
+        <div class="line"><span class="stat">82%</span> of tech workers feel close to burnout</div>
+        <div class="line"><span class="stat">45%</span> higher burnout among frequent AI tool users</div>
+        <div class="line"><span class="stat">58%</span> of tech workers feel like impostors</div>
+        <div class="line" style="margin-top: 12px;">The people who thrive aren't chasing every release.</div>
+        <div class="line">They <span class="highlight">ship consistently</span> instead of doomscrolling.</div>
+        <div class="line">They <span class="highlight">master 3 tools</span> instead of dabbling in 12.</div>
+        <div class="line" style="margin-top: 12px;"><span class="dim">"Keeping up" is a myth designed to sell newsletters.</span></div>
+        <div class="line" style="margin-top: 12px;">What's <span class="highlight">ONE thing</span> you can do in the next 30 min that moves YOUR work forward?</div>
+      </div>
+    </div>
+
+    <!-- Scene 3: Install CTA -->
+    <div id="scene3">
+      <div class="line" style="text-align: center; margin-top: 40px;">
+        <span style="font-size: 28px; font-weight: 700; color: #e6edf3;">breathe</span>
+        <span class="dim" style="font-size: 14px; display: block; margin-top: 4px;">mental health for builders</span>
+      </div>
+      <div class="line" style="text-align: center; margin-top: 20px; color: #8b949e;">
+        5 modes: Quick Breathe · Guided Meditation · FOMO Reset · Burnout Check-In · Perspective
+      </div>
+      <div class="install-line" style="text-align: center; margin-top: 24px; max-width: 540px; margin-left: auto; margin-right: auto;">
+        git clone git@github.com:beknazar/breathe.git ~/.claude/skills/breathe
+      </div>
+      <div class="line" style="text-align: center; margin-top: 20px;">
+        <span class="dim">Every technique is evidence-based. No vibes. No woo.</span>
+      </div>
+      <div class="line" style="text-align: center; margin-top: 12px;">
+        <span class="dim">by</span> <span style="color: #58a6ff;">@beknabdik</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>github.com/beknazar/breathe</span>
+    <span>Claude Code Skill</span>
+  </div>
+</div>
+
+<script>
+  const scenes = ['scene0', 'scene1', 'scene2', 'scene3'];
+  let currentScene = 0;
+  const typingText = "I'm stressed, everything is breaking";
+  let charIndex = 0;
+
+  // Show scene 0 first
+  document.getElementById('scene0').style.display = 'block';
+
+  // Type out the user input
+  function typeChar() {
+    if (charIndex < typingText.length) {
+      document.getElementById('typing').textContent += typingText[charIndex];
+      charIndex++;
+      setTimeout(typeChar, 50 + Math.random() * 30);
+    } else {
+      // After typing, wait then show scene 1
+      setTimeout(() => {
+        document.getElementById('scene0').style.display = 'none';
+        document.getElementById('scene1').style.display = 'block';
+        document.getElementById('scene1').classList.add('fade-in');
+      }, 800);
+    }
+  }
+
+  // Start typing after a short delay
+  setTimeout(typeChar, 1000);
+
+  // Auto-advance scenes
+  setTimeout(() => {
+    document.getElementById('scene1').style.display = 'none';
+    document.getElementById('scene2').style.display = 'block';
+    document.getElementById('scene2').classList.add('fade-in');
+  }, 10000);
+
+  setTimeout(() => {
+    document.getElementById('scene2').style.display = 'none';
+    document.getElementById('scene3').style.display = 'block';
+    document.getElementById('scene3').classList.add('fade-in');
+  }, 18000);
+</script>
+
+</body>
+</html>
